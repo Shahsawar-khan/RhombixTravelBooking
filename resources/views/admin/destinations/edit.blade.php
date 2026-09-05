@@ -1,0 +1,212 @@
+@extends('layouts.admin')
+
+@section('title', 'Edit Destination | TravelEase')
+
+@push('styles')
+    @vite(['resources/css/admin.css'])
+@endpush
+
+@section('content')
+
+<div class="admin-page">
+
+    <div class="admin-container">
+
+        <div class="admin-header">
+
+            <div>
+                <span class="admin-eyebrow">TRAVELEASE ADMIN</span>
+
+                <h1>Edit Destination</h1>
+
+                <p>
+                    Update the information for {{ $destination->name }}.
+                </p>
+            </div>
+
+            <a
+                href="{{ route('admin.destinations.index') }}"
+                class="admin-view-site"
+            >
+                ← All Destinations
+            </a>
+
+        </div>
+
+
+        @if ($errors->any())
+
+            <div class="admin-error-message">
+
+                <strong>Please fix the following errors:</strong>
+
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+
+            </div>
+
+        @endif
+
+
+        <section class="admin-section">
+
+            <div class="admin-section-header">
+
+                <span>DESTINATION INFORMATION</span>
+
+                <h2>Update Destination</h2>
+
+            </div>
+
+
+            <form
+                method="POST"
+                action="{{ route('admin.destinations.update', $destination) }}"
+                class="admin-form"
+            >
+
+                @csrf
+
+                @method('PUT')
+
+
+                <div class="admin-form-grid">
+
+                    {{-- Name --}}
+                    <div class="admin-form-group">
+
+                        <label for="name">
+                            Destination Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value="{{ old('name', $destination->name) }}"
+                            placeholder="e.g. Dubai"
+                            required
+                        >
+
+                    </div>
+
+
+                    {{-- Country --}}
+                    <div class="admin-form-group">
+
+                        <label for="country">
+                            Country
+                        </label>
+
+                        <input
+                            type="text"
+                            id="country"
+                            name="country"
+                            value="{{ old('country', $destination->country) }}"
+                            placeholder="e.g. United Arab Emirates"
+                            required
+                        >
+
+                    </div>
+
+
+                    {{-- Image --}}
+                    <div class="admin-form-group">
+
+                        <label for="image">
+                            Image File Name
+                        </label>
+
+                        <input
+                            type="text"
+                            id="image"
+                            name="image"
+                            value="{{ old('image', $destination->image) }}"
+                            placeholder="e.g. dubai.jpg"
+                        >
+
+                        <small>
+                            Enter the image filename from
+                            <strong>public/assets/images/destinations</strong>.
+                        </small>
+
+                    </div>
+
+
+                    {{-- Status --}}
+                    <div class="admin-form-group">
+
+                        <label for="status">
+                            Status
+                        </label>
+
+                        <select
+                            id="status"
+                            name="status"
+                            required
+                        >
+
+                            <option value="1"
+                                {{ old('status', $destination->status) == 1 ? 'selected' : '' }}>
+                                Active
+                            </option>
+
+                            <option value="0"
+                                {{ old('status', $destination->status) == 0 ? 'selected' : '' }}>
+                                Inactive
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    {{-- Description --}}
+                    <div class="admin-form-group admin-form-full">
+
+                        <label for="description">
+                            Description
+                        </label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            rows="6"
+                            placeholder="Write a short description about this destination..."
+                        >{{ old('description', $destination->description) }}</textarea>
+
+                    </div>
+
+                </div>
+
+
+                <div class="admin-form-actions">
+
+                    <a
+                        href="{{ route('admin.destinations.index') }}"
+                        class="admin-cancel-btn"
+                    >
+                        Cancel
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="admin-submit-btn"
+                    >
+                        Update Destination →
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
+    </div>
+
+</div>
+
+@endsection
